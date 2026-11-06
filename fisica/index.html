@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Magnetismo y Circuitos RC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$']]}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
+<style>
+:root{--bg:#0a1230;--bg2:#12102e;--card:#1a1b45;--card2:#22204f;--line:#2f6fa8;--glow:#38bdf8;--p:#8b5cf6;--b:#4f9bff;--tx:#e8ecff;--mu:#a9b3d9}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{font-family:'Poppins',sans-serif;background:linear-gradient(160deg,var(--bg),var(--bg2) 60%,#1b1040) fixed;color:var(--tx);line-height:1.7;font-size:16px}
+nav{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;gap:4px;padding:10px 16px;background:rgba(10,18,48,.9);backdrop-filter:blur(8px);border-bottom:1px solid rgba(56,189,248,.25);overflow-x:auto;white-space:nowrap}
+nav a{color:var(--mu);text-decoration:none;padding:6px 12px;border-radius:8px;font-size:14px;font-weight:500}
+nav a:hover,nav a:focus-visible{color:#fff;background:rgba(139,92,246,.3);outline:none}
+main{max-width:960px;margin:0 auto;padding:0 20px 60px}
+section{padding-top:56px}
+h1{font-size:clamp(2.2rem,7vw,4.2rem);line-height:1.1;font-weight:700;background:linear-gradient(90deg,var(--b),var(--p),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font-size:clamp(1.5rem,4vw,2rem);color:#22d3ee;text-shadow:0 0 18px rgba(34,211,238,.45);margin-bottom:16px}
+h3{font-size:1.1rem;color:#c4b5fd;margin:18px 0 6px}
+p{margin-bottom:10px;color:#dfe4ff}
+.hero{text-align:center;padding:110px 0 10px}
+.kicker{color:var(--p);letter-spacing:.2em;font-size:.85rem;margin-bottom:14px}
+.sub{max-width:640px;margin:16px auto 28px;color:var(--mu)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;text-align:left}
+.card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid rgba(56,189,248,.28);border-radius:16px;padding:20px;box-shadow:0 0 22px rgba(79,155,255,.08)}
+.mini small{display:block;color:var(--mu);font-size:.78rem}
+.mini span{font-weight:600;display:block}
+.tema{margin-top:26px}
+.tema>h3.t{font-size:1.35rem;color:#fff;margin:0 0 10px}
+.tag{display:inline-block;background:linear-gradient(135deg,#38bdf8,#8b5cf6);color:#0a1230;font-weight:700;font-size:.8rem;padding:2px 10px;border-radius:8px;margin-right:10px;vertical-align:middle}
+.formula{background:rgba(10,18,48,.6);border-left:3px solid var(--p);border-radius:8px;padding:8px 14px;margin:10px 0;overflow-x:auto}
+.units{font-size:.88rem;color:var(--mu)}
+svg{width:100%;height:auto;max-height:260px;background:rgba(10,18,48,.55);border:1px solid rgba(56,189,248,.2);border-radius:12px;margin:10px 0}
+svg text{fill:#e8ecff;font-family:Poppins,sans-serif;font-size:13px}
+.ej{background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.35);border-radius:12px;padding:12px 16px;margin-top:10px}
+.ej b{color:#22d3ee}
+details{background:var(--card);border:1px solid rgba(56,189,248,.28);border-radius:14px;margin-bottom:12px;overflow:hidden}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:10px}
+summary::after{content:"+";color:#22d3ee;font-size:1.3rem;line-height:1;transition:transform .25s}
+details[open] summary::after{transform:rotate(45deg)}
+summary:focus-visible{outline:2px solid #22d3ee}
+.sol{padding:0 18px 14px;border-top:1px solid rgba(56,189,248,.18);padding-top:12px}
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+label{display:block;font-size:.85rem;color:var(--mu);margin:8px 0 2px}
+input{width:100%;padding:9px 12px;border-radius:10px;border:1px solid rgba(139,92,246,.5);background:#0d1535;color:#fff;font:inherit}
+input:focus{outline:2px solid #22d3ee}
+.res{margin-top:14px;padding:12px;border-radius:12px;background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.4);font-weight:600;font-size:1.05rem;word-break:break-word}
+.res small{display:block;font-weight:400;color:var(--mu);font-size:.82rem}
+ol.bib{padding-left:22px}ol.bib li{margin-bottom:10px;color:#dfe4ff}
+footer{text-align:center;color:var(--mu);font-size:.85rem;padding:30px 0}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<nav>
+<a href="#inicio">Inicio</a><a href="#intro">Introducción</a><a href="#t1">Tema 1</a><a href="#t2">Tema 2</a><a href="#t3">Tema 3</a><a href="#t4">Tema 4</a><a href="#t5">Tema 5</a><a href="#ejercicios">Ejercicios</a><a href="#simulador">Simulador</a><a href="#conclusion">Conclusión</a><a href="#bib">Bibliografía</a>
+</nav>
+<main>
+
+<header id="inicio" class="hero">
+<p class="kicker">FÍSICA ELÉCTRICA</p>
+<h1>Magnetismo y Circuitos RC</h1>
+<p class="sub">Trabajo escrito con teoría, fórmulas, esquemas y ejercicios resueltos de cada tema. Presentación: jueves 12 de noviembre de 2026.</p>
+<div class="grid">
+<div class="card mini"><small>Institución</small><span>Escuela Tecnologica Instituto Tecnico Central</span></div>
+<div class="card mini"><small>Materia</small><span>Física Eléctrica</span></div>
+<div class="card mini"><small>Estudiante</small><span>Andres Felype Alfonso Campos</span></div>
+<div class="card mini"><small>Fecha</small><span>12 de noviembre de 2026</span></div>
+</div>
+</header>
+
+<section id="intro">
+<h2>Introducción</h2>
+<div class="card">
+<p>El magnetismo y los circuitos de corriente variable explican buena parte de la tecnología actual: motores eléctricos, aceleradores de partículas, discos duros, resonancia magnética y los temporizadores presentes en casi cualquier dispositivo electrónico.</p>
+<p>Este trabajo estudia primero el campo magnético y la fuerza que ejerce sobre cargas en movimiento, después el movimiento circular de una partícula cargada y la ley de Gauss para el magnetismo. Finalmente analiza el circuito RC, donde un condensador se carga o descarga a través de una resistencia.</p>
+<h3>Objetivos</h3>
+<p>1) Definir con rigor los conceptos de campo y fuerza magnética. 2) Aplicar las fórmulas con sus unidades del SI. 3) Interpretar esquemas y trayectorias. 4) Resolver ejercicios numéricos de cada tema. 5) Comprender la constante de tiempo \(\tau = RC\).</p>
+</div>
+</section>
+
+<section id="t1">
+<h2>Desarrollo teórico</h2>
+<div class="card tema">
+<h3 class="t"><span class="tag">01</span>Campos y fuerzas magnéticas</h3>
+<p>Un campo magnético es la región del espacio donde una carga en movimiento o un imán experimenta una fuerza. Lo producen las cargas en movimiento (corrientes eléctricas) y los imanes permanentes. Se representa con el vector \(\vec B\), cuyas líneas de campo son siempre cerradas: salen del polo norte y entran por el polo sur.</p>
+<p>Un conductor recto y largo con corriente \(I\) crea alrededor de sí un campo cuyas líneas son circunferencias concéntricas, con sentido dado por la regla de la mano derecha: el pulgar apunta en el sentido de la corriente y los dedos indican el de \(\vec B\).</p>
+<div class="formula">$$B=\frac{\mu_0 I}{2\pi r},\qquad \mu_0=4\pi\times10^{-7}\ \mathrm{T\cdot m/A}$$</div>
+<p class="units">B en tesla (T), I en amperios (A), r en metros (m).</p>
+<svg viewBox="0 0 400 220" role="img" aria-label="Campo magnético alrededor de un conductor">
+<circle cx="140" cy="110" r="30" fill="none" stroke="#4f9bff" stroke-width="2"/><circle cx="140" cy="110" r="60" fill="none" stroke="#6d8cff" stroke-width="2"/><circle cx="140" cy="110" r="90" fill="none" stroke="#8b5cf6" stroke-width="2"/>
+<circle cx="140" cy="110" r="9" fill="#22d3ee"/><circle cx="140" cy="110" r="2.5" fill="#0a1230"/>
+<path d="M140 20l8 -6M140 20l8 6" stroke="#8b5cf6" stroke-width="2" fill="none"/><path d="M110 110l-6 8M110 110l6 8" stroke="#4f9bff" stroke-width="2" fill="none"/>
+<text x="165" y="50">B</text><text x="156" y="114">I (sale de la hoja)</text>
+<line x1="140" y1="110" x2="230" y2="110" stroke="#fbbf24" stroke-dasharray="4 3"/><text x="300" y="100">r</text>
+<text x="250" y="175">Líneas de B circulares</text><text x="250" y="195">(mano derecha)</text>
+</svg>
+<div class="ej"><b>Ejemplo.</b> Un cable porta \(I=10\ \mathrm{A}\). ¿Cuál es B a \(r=0{,}05\ \mathrm{m}\)?<br>
+\(B=\dfrac{(4\pi\times10^{-7})(10)}{2\pi(0{,}05)}=4\times10^{-5}\ \mathrm{T}\) (40 μT, similar al campo terrestre).</div>
+</div>
+</section>
+
+<section id="t2">
+<div class="card tema">
+<h3 class="t"><span class="tag">02</span>Fuerza magnética</h3>
+<p>Una carga \(q\) que se mueve con velocidad \(\vec v\) dentro de un campo \(\vec B\) experimenta una fuerza perpendicular tanto a \(\vec v\) como a \(\vec B\). Su magnitud es máxima cuando \(\vec v\) y \(\vec B\) son perpendiculares y nula cuando son paralelos. Como la fuerza es perpendicular al movimiento, no realiza trabajo: cambia la dirección de la velocidad, no su rapidez.</p>
+<div class="formula">$$\vec F=q\,\vec v\times\vec B,\qquad F=|q|\,v\,B\,\sin\theta$$</div>
+<div class="formula">$$\vec F=I\,\vec L\times\vec B\quad(\text{conductor recto})$$</div>
+<p class="units">F en newton (N), q en coulomb (C), v en m/s, B en tesla (T), I en amperios (A), L en metros (m).</p>
+<svg viewBox="0 0 400 220" role="img" aria-label="Vectores v, B y F">
+<defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#fff"/></marker></defs>
+<line x1="60" y1="150" x2="230" y2="150" stroke="#22d3ee" stroke-width="3" marker-end="url(#a)"/><text x="235" y="155">v</text>
+<line x1="60" y1="150" x2="60" y2="40" stroke="#fbbf24" stroke-width="3" marker-end="url(#a)"/><text x="68" y="38">F</text>
+<circle cx="320" cy="60" r="14" fill="none" stroke="#8b5cf6" stroke-width="2"/><circle cx="320" cy="60" r="3" fill="#8b5cf6"/><text x="342" y="65">B (sale)</text>
+<circle cx="60" cy="150" r="7" fill="#4f9bff"/><text x="75" y="175">q (+)</text>
+<text x="170" y="40">F = q v × B (regla de la mano derecha)</text>
+</svg>
+<div class="ej"><b>Ejemplo.</b> \(q=2\ \mu\mathrm{C}\), \(v=3\times10^{5}\ \mathrm{m/s}\), \(B=0{,}5\ \mathrm{T}\), \(\theta=30^\circ\).<br>
+\(F=(2\times10^{-6})(3\times10^{5})(0{,}5)\sin30^\circ=0{,}15\ \mathrm{N}\).</div>
+</div>
+</section>
+
+<section id="t3">
+<div class="card tema">
+<h3 class="t"><span class="tag">03</span>Movimiento de una partícula con carga en un campo magnético uniforme</h3>
+<p>Si una partícula entra perpendicularmente a un campo uniforme, la fuerza magnética actúa como fuerza centrípeta y la partícula describe una circunferencia con rapidez constante. Si la velocidad tiene además una componente paralela a \(\vec B\), la trayectoria es una hélice. Igualando \(qvB=mv^2/r\) se obtiene el radio, y el periodo no depende de la rapidez, principio del ciclotrón.</p>
+<div class="formula">$$r=\frac{mv}{|q|B},\qquad \omega=\frac{|q|B}{m},\qquad T=\frac{2\pi m}{|q|B}$$</div>
+<p class="units">r en metros (m), m en kilogramos (kg), ω en rad/s, T (periodo) en segundos (s), q en coulomb (C), B en tesla (T).</p>
+<svg viewBox="0 0 400 220" role="img" aria-label="Trayectoria circular en campo magnético">
+<g stroke="#8b5cf6" stroke-width="1.6" opacity=".7"><path d="M40 30l10 10m0-10l-10 10M110 30l10 10m0-10l-10 10M180 30l10 10m0-10l-10 10M250 30l10 10m0-10l-10 10M320 30l10 10m0-10l-10 10M40 180l10 10m0-10l-10 10M110 180l10 10m0-10l-10 10M180 180l10 10m0-10l-10 10M250 180l10 10m0-10l-10 10M320 180l10 10m0-10l-10 10"/></g>
+<defs><marker id="b" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#fff"/></marker></defs>
+<circle cx="200" cy="110" r="65" fill="none" stroke="#22d3ee" stroke-width="3"/>
+<circle cx="265" cy="110" r="7" fill="#4f9bff"/>
+<line x1="265" y1="110" x2="265" y2="60" stroke="#22d3ee" stroke-width="2.5" marker-end="url(#b)"/><text x="272" y="64">v</text>
+<line x1="265" y1="110" x2="215" y2="110" stroke="#fbbf24" stroke-width="2.5" marker-end="url(#b)"/><text x="225" y="102">F</text>
+<line x1="200" y1="110" x2="150" y2="130" stroke="#fff" stroke-dasharray="4 3"/><text x="160" y="128">r</text>
+<text x="300" y="200">× B entra a la hoja</text>
+</svg>
+<div class="ej"><b>Ejemplo.</b> Un electrón (\(m=9{,}11\times10^{-31}\ \mathrm{kg}\), \(q=1{,}602\times10^{-19}\ \mathrm{C}\)) entra con \(v=2\times10^{6}\ \mathrm{m/s}\) perpendicular a \(B=0{,}01\ \mathrm{T}\).<br>
+\(r=\dfrac{(9{,}11\times10^{-31})(2\times10^{6})}{(1{,}602\times10^{-19})(0{,}01)}\approx1{,}14\times10^{-3}\ \mathrm{m}\) (1,14 mm).<br>
+\(T=\dfrac{2\pi(9{,}11\times10^{-31})}{(1{,}602\times10^{-19})(0{,}01)}\approx3{,}57\times10^{-9}\ \mathrm{s}\) (3,57 ns).</div>
+</div>
+</section>
+
+<section id="t4">
+<div class="card tema">
+<h3 class="t"><span class="tag">04</span>Ley de Gauss para el magnetismo</h3>
+<p>El flujo magnético \(\Phi_B\) mide cuántas líneas de campo atraviesan una superficie. La ley de Gauss para el magnetismo establece que el flujo neto a través de cualquier superficie cerrada es cero, porque las líneas de B son cerradas: todas las que entran también salen. Equivale a decir que no existen monopolos magnéticos aislados: un imán partido en dos genera dos imanes con polo norte y sur.</p>
+<div class="formula">$$\Phi_B=\int\vec B\cdot d\vec A=BA\cos\theta,\qquad \oint\vec B\cdot d\vec A=0$$</div>
+<p class="units">Φ en weber (Wb = T·m²), B en tesla (T), A en m², θ ángulo entre B y la normal a la superficie.</p>
+<svg viewBox="0 0 400 220" role="img" aria-label="Imán con líneas cerradas">
+<rect x="150" y="90" width="50" height="40" fill="#e11d48"/><rect x="200" y="90" width="50" height="40" fill="#4f9bff"/>
+<text x="168" y="116" style="fill:#fff;font-weight:700">N</text><text x="218" y="116" style="fill:#fff;font-weight:700">S</text>
+<g fill="none" stroke="#8b5cf6" stroke-width="2"><ellipse cx="200" cy="110" rx="100" ry="45"/><ellipse cx="200" cy="110" rx="140" ry="85"/><ellipse cx="200" cy="110" rx="70" ry="22"/></g>
+<text x="20" y="20">Las líneas no terminan: son cerradas</text><text x="20" y="210">Flujo neto en superficie cerrada = 0</text>
+</svg>
+<div class="ej"><b>Ejemplo.</b> Una espira de \(A=0{,}05\ \mathrm{m^2}\) está en un campo \(B=0{,}2\ \mathrm{T}\) con \(\theta=60^\circ\).<br>
+\(\Phi_B=(0{,}2)(0{,}05)\cos60^\circ=5\times10^{-3}\ \mathrm{Wb}\). Si se encierra el imán en una superficie cerrada, el flujo neto es 0 Wb.</div>
+</div>
+</section>
+
+<section id="t5">
+<div class="card tema">
+<h3 class="t"><span class="tag">05</span>Circuitos RC: carga y descarga de un condensador</h3>
+<p>Un circuito RC combina una resistencia \(R\) y un condensador \(C\) en serie. Al cerrar el interruptor en la posición de carga, la corriente fluye y el voltaje del condensador crece exponencialmente hacia el de la fuente. En la descarga, el condensador entrega su carga a través de R y su voltaje decae exponencialmente. La rapidez la fija la constante de tiempo \(\tau=RC\): tras un \(\tau\) el condensador alcanza 63,2 % de la carga final o cae a 36,8 % del valor inicial.</p>
+<div class="formula">$$\text{Carga: } V_C(t)=V_0\left(1-e^{-t/RC}\right),\quad q(t)=CV_0\left(1-e^{-t/RC}\right)$$</div>
+<div class="formula">$$\text{Descarga: } V_C(t)=V_0\,e^{-t/RC},\qquad \tau=RC$$</div>
+<p class="units">R en ohm (Ω), C en faradio (F), τ y t en segundos (s), V en voltios (V), q en coulomb (C).</p>
+<svg viewBox="0 0 400 220" role="img" aria-label="Circuito RC con interruptor">
+<g fill="none" stroke="#4f9bff" stroke-width="3"><path d="M60 40H140M200 40H340V90M340 130V180H60V130M60 90V40"/></g>
+<line x1="48" y1="90" x2="72" y2="90" stroke="#fbbf24" stroke-width="4"/><line x1="54" y1="100" x2="66" y2="100" stroke="#fbbf24" stroke-width="4"/>
+<text x="76" y="97">V₀</text>
+<path d="M140 40l8-14 12 28 12-28 12 28 12-28 8 14" fill="none" stroke="#8b5cf6" stroke-width="3" transform="translate(-4,0)"/><text x="148" y="20">R</text>
+<line x1="325" y1="90" x2="355" y2="90" stroke="#22d3ee" stroke-width="4"/><line x1="325" y1="130" x2="355" y2="130" stroke="#22d3ee" stroke-width="4"/><text x="362" y="115">C</text>
+<line x1="180" y1="180" x2="220" y2="160" stroke="#fff" stroke-width="3"/><text x="150" y="205">Interruptor</text>
+<path d="M240 100q20-10 40 60" fill="none"/><text x="230" y="80">i(t)</text>
+</svg>
+<div class="ej"><b>Ejemplo.</b> \(R=10\ \mathrm{k\Omega}\), \(C=100\ \mu\mathrm{F}\), \(V_0=12\ \mathrm{V}\).<br>
+\(\tau=(10^4)(10^{-4})=1\ \mathrm{s}\).<br>
+Carga a \(t=2\ \mathrm{s}\): \(V_C=12(1-e^{-2})\approx10{,}38\ \mathrm{V}\).<br>
+Descarga a \(t=3\ \mathrm{s}\): \(V_C=12e^{-3}\approx0{,}60\ \mathrm{V}\).</div>
+</div>
+</section>
+
+<section id="ejercicios">
+<h2>Ejercicios resueltos</h2>
+<details><summary>Ejercicio 1. Fuerza sobre un protón</summary><div class="sol">
+<p>Un protón (\(q=1{,}602\times10^{-19}\ \mathrm{C}\)) se mueve a \(4\times10^{6}\ \mathrm{m/s}\) perpendicular a \(B=0{,}3\ \mathrm{T}\). Calcula F.</p>
+<p><b>Paso 1.</b> Perpendicular: \(\sin90^\circ=1\).</p>
+<p><b>Paso 2.</b> \(F=qvB=(1{,}602\times10^{-19})(4\times10^{6})(0{,}3)\).</p>
+<p><b>Resultado:</b> \(F\approx1{,}92\times10^{-13}\ \mathrm{N}\).</p></div></details>
+<details><summary>Ejercicio 2. Radio de la órbita de un protón</summary><div class="sol">
+<p>Un protón (\(m=1{,}673\times10^{-27}\ \mathrm{kg}\)) con \(v=10^{6}\ \mathrm{m/s}\) entra perpendicular a \(B=0{,}2\ \mathrm{T}\).</p>
+<p><b>Paso 1.</b> \(r=\dfrac{mv}{qB}\).</p>
+<p><b>Paso 2.</b> \(r=\dfrac{(1{,}673\times10^{-27})(10^{6})}{(1{,}602\times10^{-19})(0{,}2)}\).</p>
+<p><b>Resultado:</b> \(r\approx0{,}052\ \mathrm{m}\) (5,2 cm).</p></div></details>
+<details><summary>Ejercicio 3. Fuerza sobre un conductor</summary><div class="sol">
+<p>Un cable de \(L=0{,}4\ \mathrm{m}\) con \(I=5\ \mathrm{A}\) está perpendicular a \(B=0{,}8\ \mathrm{T}\).</p>
+<p><b>Paso 1.</b> \(F=ILB\sin\theta\) con \(\sin90^\circ=1\).</p>
+<p><b>Paso 2.</b> \(F=(5)(0{,}4)(0{,}8)\).</p>
+<p><b>Resultado:</b> \(F=1{,}6\ \mathrm{N}\).</p></div></details>
+<details><summary>Ejercicio 4. Constante de tiempo y carga al 95 %</summary><div class="sol">
+<p>Un circuito RC tiene \(R=2\ \mathrm{k\Omega}\) y \(C=50\ \mu\mathrm{F}\). Halla \(\tau\) y el tiempo para alcanzar 95 % de la carga.</p>
+<p><b>Paso 1.</b> \(\tau=RC=(2000)(50\times10^{-6})=0{,}1\ \mathrm{s}\).</p>
+<p><b>Paso 2.</b> \(0{,}95=1-e^{-t/\tau}\Rightarrow t=-\tau\ln0{,}05\approx3\tau\).</p>
+<p><b>Resultado:</b> \(t\approx0{,}30\ \mathrm{s}\).</p></div></details>
+</section>
+
+<section id="simulador">
+<h2>Simulador interactivo</h2>
+<div class="calc">
+<div class="card">
+<h3>Fuerza magnética</h3>
+<label for="q">Carga q (μC)</label><input id="q" type="number" value="2" step="any">
+<label for="v">Velocidad v (m/s)</label><input id="v" type="number" value="300000" step="any">
+<label for="B">Campo B (T)</label><input id="B" type="number" value="0.5" step="any">
+<label for="th">Ángulo θ (°)</label><input id="th" type="number" value="30" step="any">
+<div class="res" id="rF"></div>
+</div>
+<div class="card">
+<h3>Circuito RC</h3>
+<label for="R">Resistencia R (kΩ)</label><input id="R" type="number" value="10" step="any">
+<label for="C">Capacitancia C (μF)</label><input id="C" type="number" value="100" step="any">
+<label for="V0">Voltaje V₀ (V)</label><input id="V0" type="number" value="12" step="any">
+<label for="t">Tiempo t (s)</label><input id="t" type="number" value="2" step="any">
+<div class="res" id="rT"></div>
+</div>
+</div>
+</section>
+
+<section id="conclusion">
+<h2>Conclusión</h2>
+<div class="card">
+<p>El campo magnético actúa solo sobre cargas en movimiento, y la fuerza resultante, perpendicular a la velocidad, curva las trayectorias sin cambiar la rapidez. Esto explica el movimiento circular y el funcionamiento de dispositivos como el ciclotrón.</p>
+<p>La ley de Gauss para el magnetismo confirma que las líneas de B son cerradas y que no se han observado monopolos. En los circuitos RC, la constante de tiempo \(\tau=RC\) resume la rapidez de carga y descarga, y su comportamiento exponencial es base de temporizadores y filtros.</p>
+</div>
+</section>
+
+<section id="bib">
+<h2>Bibliografía</h2>
+<div class="card">
+<ol class="bib">
+<li>Young, H. D. y Freedman, R. A. (2013). <i>Física universitaria con física moderna</i> (13.ª ed., Sears-Zemansky), vol. 2. Pearson Educación.</li>
+<li>Serway, R. A. y Jewett, J. W. (2019). <i>Física para ciencias e ingeniería</i> (10.ª ed.), vol. 2. Cengage Learning.</li>
+<li>Halliday, D., Resnick, R. y Walker, J. (2014). <i>Fundamentals of Physics</i> (10.ª ed.). John Wiley & Sons.</li>
+</ol>
+</div>
+</section>
+</main>
+<footer>Trabajo de Física Eléctrica · Magnetismo y Circuitos RC</footer>
+
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+function f(n){if(!isFinite(n))return "—";var a=Math.abs(n);return (a!==0&&(a<1e-3||a>=1e6))?n.toExponential(3):(+n.toPrecision(4)).toString()}
+function calcF(){
+var q=parseFloat($("q").value)*1e-6,v=parseFloat($("v").value),B=parseFloat($("B").value),th=parseFloat($("th").value)*Math.PI/180;
+var F=Math.abs(q)*v*B*Math.sin(th);
+$("rF").innerHTML="F = "+f(F)+" N<small>F = |q|·v·B·sin θ con q = "+f(q)+" C</small>";
+}
+function calcT(){
+var R=parseFloat($("R").value)*1e3,C=parseFloat($("C").value)*1e-6,V0=parseFloat($("V0").value),t=parseFloat($("t").value);
+var tau=R*C,vc=V0*(1-Math.exp(-t/tau)),vd=V0*Math.exp(-t/tau);
+$("rT").innerHTML="τ = "+f(tau)+" s<small>5τ (carga casi completa) = "+f(5*tau)+" s</small><small>Carga: V_C("+f(t)+" s) = "+f(vc)+" V</small><small>Descarga: V_C("+f(t)+" s) = "+f(vd)+" V</small>";
+}
+["q","v","B","th"].forEach(function(i){$(i).addEventListener("input",calcF)});
+["R","C","V0","t"].forEach(function(i){$(i).addEventListener("input",calcT)});
+calcF();calcT();
+})();
+</script>
+</body>
+</html>
